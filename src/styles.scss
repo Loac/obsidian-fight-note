@@ -1,0 +1,519 @@
+// fight-note – prefix
+// __settings – classes for outside manipulate by settings parameters.
+// __input – classes for outside manipulate by input value.
+// __action – classes for SVG action buttons.
+// __move – classes for SVG move buttons.
+// __next – classes for SVG next icon.
+// __bracket-left – classes for SVG left bracket.
+// __bracket-right – classes for SVG right bracket.
+// __special – classes for Special plates.
+// __specific – classes for Specific plates.
+
+// Main frame of note.
+
+.fight-note {
+	&__frame {
+		background: rgb(29, 33, 44);
+		border: 5px solid rgb(20, 22, 31);
+		padding: 10px;
+	}
+
+	// Header.
+
+	&__header {
+		display: flex;
+		font-family: "Trump Gothic East", Arial, serif;
+		font-size: 36px;
+		justify-content: space-between;
+	}
+
+	&__title {
+		line-height: 1;
+		padding: 0 0 12px 0;
+		height: 48px;
+	}
+
+	// Footer.
+
+	&__footer {
+		align-items: end;
+		display: flex;
+		font-family: "Trump Gothic East", Arial, serif;
+		font-size: 20px;
+		line-height: 1;
+		padding: 0 0 0 2px;
+	}
+
+	&__hits {
+		color: rgb(240, 150, 0);
+		padding: 8px 0 0 0;
+	}
+
+	&__damage {
+		color: rgb(220, 200, 0);
+		padding: 8px 0 0 0;
+	}
+
+	&__separator {
+		background: rgb(12, 73, 90);
+		height: 16px;
+		margin: 2px 8px 2px 8px;
+		width: 2px;
+	}
+
+	// Line inputs.
+
+	&__inputs {
+		display: flex;
+	}
+
+	&__input {
+		max-height: 50px;
+		min-height: 50px;
+		width: auto;
+	}
+
+	&__input-svg {
+		display: block;
+		height: 50px;
+		width: auto;
+	}
+}
+
+// Background for all inputs.
+
+@mixin fight-note__input-background {
+	stroke: rgb(0, 0, 0);
+	stroke-width: 80;
+}
+
+// Action inputs.
+
+.fight-note__action-background { @include fight-note__input-background; }
+
+// Inactive action colors.
+
+.fight-note__action {
+	--action-color-1-light: rgb(90, 90, 100);
+	--action-color-1-dark: rgb(60, 60, 70);
+	--action-color-2-light: rgb(90, 90, 100);
+	--action-color-2-dark: rgb(60, 60, 70);
+	--action-color-3-light: rgb(90, 90, 100);
+	--action-color-3-dark: rgb(60, 60, 70);
+	--action-color-4-light: rgb(90, 90, 100);
+	--action-color-4-dark: rgb(60, 60, 70);
+}
+
+// Settings for active action inputs.
+
+.fight-note__settings__buttons {
+	&_default {
+		.fight-note__input-1 .fight-note__action {
+			--action-color-1-light: rgb(250, 250, 255);
+			--action-color-1-dark: rgb(170, 170, 180);
+		}
+		.fight-note__input-2 .fight-note__action {
+			--action-color-2-light: rgb(250, 250, 255);
+			--action-color-2-dark: rgb(170, 170, 180);
+		}
+		.fight-note__input-3 .fight-note__action {
+			--action-color-3-light: rgb(250, 250, 255);
+			--action-color-3-dark: rgb(170, 170, 180);
+		}
+		.fight-note__input-4 .fight-note__action {
+			--action-color-4-light: rgb(250, 250, 255);
+			--action-color-4-dark: rgb(170, 170, 180);
+		}
+	}
+
+	&_xbox {
+		.fight-note__input-1 .fight-note__action {
+			--action-color-1-light: rgb(60, 200, 250);
+			--action-color-1-dark: rgb(50, 140, 150);
+		}
+		.fight-note__input-2 .fight-note__action {
+			--action-color-2-light: rgb(250, 220, 50);
+			--action-color-2-dark: rgb(180, 180, 50);
+		}
+		.fight-note__input-3 .fight-note__action {
+			--action-color-3-light: rgb(60, 240, 60);
+			--action-color-3-dark: rgb(50, 180, 50);
+		}
+		.fight-note__input-4 .fight-note__action {
+			--action-color-4-light: rgb(250, 60, 60);
+			--action-color-4-dark: rgb(180, 50, 50);
+		}
+	}
+
+	&_ps {
+		.fight-note__input-1 .fight-note__action {
+			--action-color-1-light: rgb(230, 170, 205);
+			--action-color-1-dark: rgb(180, 130, 160);
+		}
+		.fight-note__input-2 .fight-note__action {
+			--action-color-2-light: rgb(95, 200, 195);
+			--action-color-2-dark: rgb(80, 166, 160);
+		}
+		.fight-note__input-3 .fight-note__action {
+			--action-color-3-light: rgb(165, 185, 210);
+			--action-color-3-dark: rgb(130, 145, 165);
+		}
+		.fight-note__input-4 .fight-note__action {
+			--action-color-4-light: rgb(245, 130, 130);
+			--action-color-4-dark: rgb(180, 90, 90);
+		}
+	}
+}
+
+// Movement inputs.
+
+@mixin fight-note__movement__out {
+	fill: rgb(215, 220, 225);
+}
+
+@mixin fight-note__movement__in {
+	fill: rgb(215, 220, 225);
+	stroke: rgb(0, 0, 0);
+	stroke-width: 10;
+}
+
+@mixin fight-note__movement__out_invert {
+	fill: rgb(215, 220, 225);
+}
+
+@mixin  fight-note__movement__in_invert {
+	fill: rgb(0, 0, 0);
+	stroke: rgb(0, 0, 0);
+	stroke-width: 10;
+}
+
+.fight-note__input-neutral {
+	.fight-note__neutral-background { @include fight-note__input-background; }
+	.fight-note__neutral-out { @include fight-note__movement__out; }
+	.fight-note__neutral-in { @include fight-note__movement__in; }
+}
+
+.fight-note__input-move-tap {
+	.fight-note__move-background { @include fight-note__input-background; }
+	.fight-note__move-out { @include fight-note__movement__out; }
+	.fight-note__move-in { @include fight-note__movement__in; }
+}
+
+.fight-note__input-move-hold {
+	.fight-note__move-background { @include fight-note__input-background; }
+	.fight-note__move-out { @include fight-note__movement__out_invert; }
+	.fight-note__move-in { @include fight-note__movement__in_invert; }
+}
+
+.fight-note__input-u .fight-note__input-svg { transform: rotate(0deg); }
+.fight-note__input-uf .fight-note__input-svg { transform: rotate(45deg); }
+.fight-note__input-f .fight-note__input-svg { transform: rotate(90deg); }
+.fight-note__input-df .fight-note__input-svg { transform: rotate(135deg); }
+.fight-note__input-d .fight-note__input-svg { transform: rotate(180deg); }
+.fight-note__input-db .fight-note__input-svg { transform: rotate(225deg); }
+.fight-note__input-b .fight-note__input-svg { transform: rotate(270deg); }
+.fight-note__input-ub .fight-note__input-svg { transform: rotate(315deg); }
+.fight-note__input-U .fight-note__input-svg { transform: rotate(0deg); }
+.fight-note__input-UF .fight-note__input-svg { transform: rotate(45deg); }
+.fight-note__input-F .fight-note__input-svg { transform: rotate(90deg); }
+.fight-note__input-DF .fight-note__input-svg { transform: rotate(135deg); }
+.fight-note__input-D .fight-note__input-svg { transform: rotate(180deg); }
+.fight-note__input-DB .fight-note__input-svg { transform: rotate(225deg); }
+.fight-note__input-B .fight-note__input-svg { transform: rotate(270deg); }
+.fight-note__input-UB .fight-note__input-svg { transform: rotate(315deg); }
+
+// Misc inputs.
+
+.fight-note__input-next {
+	.fight-note__next-background { @include fight-note__input-background; }
+	.fight-note__next-in { fill: rgb(50, 180, 50); }
+}
+
+.fight-note__input-bracket-left {
+	.fight-note__bracket-left-background { @include fight-note__input-background; }
+	.fight-note__bracket-left-in { @include fight-note__movement__in; }
+}
+
+.fight-note__input-bracket-right {
+	.fight-note__bracket-right-background { @include fight-note__input-background; }
+	.fight-note__bracket-right-in { @include fight-note__movement__in; }
+}
+
+.fight-note__icon-wall-splat {
+	 --plate-color-light: rgb(200, 40, 150);
+	 --plate-color-dark: rgb(180, 40, 130);
+
+	.fight-note__icon-background { @include fight-note__input-background; }
+	.fight-note__icon-plate {
+		stroke: rgba(240, 50, 180, 0.5);
+		stroke-width: 15;
+	}
+	.fight-note__icon-figure {
+		fill: rgb(240, 255, 240);
+	}
+}
+
+.fight-note__icon-wall-break {
+	 --plate-color-light: rgb(10, 140, 40);
+	 --plate-color-dark: rgb(10, 120, 30);
+
+	.fight-note__icon-background { @include fight-note__input-background; }
+	.fight-note__icon-plate {
+		stroke: rgba(30, 160, 60, 0.5);
+		stroke-width: 15;
+	}
+	.fight-note__icon-figure {
+		fill: rgb(240, 255, 240);
+	}
+}
+
+.fight-note__icon-floor-break {
+	--plate-color-light: rgb(210, 140, 20);
+	--plate-color-dark: rgb(190, 120, 20);
+
+	.fight-note__icon-background { @include fight-note__input-background; }
+	.fight-note__icon-plate {
+		stroke: rgb(255, 170, 30, 0.5);
+		stroke-width: 15;
+	}
+	.fight-note__icon-figure {
+		fill: rgb(245, 240, 255);
+	}
+}
+
+.fight-note__icon-balcony-break {
+	 --plate-color-light: rgb(110, 70, 180);
+	 --plate-color-dark: rgb(90, 60, 150);
+
+	.fight-note__icon-background { @include fight-note__input-background; }
+	.fight-note__icon-plate {
+		stroke: rgba(120, 80, 220, 0.5);
+		stroke-width: 15;
+	}
+	.fight-note__icon-figure {
+		fill: rgb(245, 240, 255);
+	}
+}
+
+.fight-note__icon-heat {
+	--plate-color-light: rgb(20, 250, 230);
+	--plate-color-middle: rgb(80, 120, 250);
+	--plate-color-dark: rgb(200, 0, 255);
+
+	.fight-note__icon-background { @include fight-note__input-background; }
+	.fight-note__icon-plate {
+		fill: url(#fight-note__icon-heat__gradient);
+		stroke: rgb(100, 255, 240, 0.3);
+		stroke-width: 15;
+	}
+	.fight-note__icon-figure {
+		fill: rgb(245, 240, 255);
+	}
+}
+
+// Plate inputs.
+
+.fight-note__plate {
+	align-items: center;
+	color: rgb(255, 255, 255);
+	display: flex;
+	font-family: "Trump Gothic East", Arial, serif;
+	font-size: 1.3rem;
+	height: 50px;
+	line-height: 1;
+	perspective: 50px;
+	position: relative;
+	white-space: nowrap;
+
+	.fight-note__plate-base {
+		background: rgb(50, 50, 50);
+		box-shadow: inset 0 0 2px rgb(70, 70, 70);
+		border: 2px solid rgb(0, 0, 0);
+		border-radius: 4px;
+		color: transparent;
+		margin: 0 6px;
+		padding: 4px 8px;
+	}
+
+	.fight-note__plate-content {
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
+
+@mixin fight-note__plate_red {
+	.fight-note__plate-base {
+		background: linear-gradient(135deg, rgb(230, 60, 100) 0%, rgb(180, 50, 75) 100%);
+		box-shadow: inset 0 0 2px rgb(255, 70, 110);
+	}
+}
+
+@mixin fight-note__plate_blue {
+	.fight-note__plate-base {
+		background: linear-gradient(135deg, rgb(30, 130, 200) 0%, rgb(20, 95, 150) 100%);
+		box-shadow: inset 0 0 2px rgb(40, 150, 255);
+	}
+}
+
+@mixin fight-note__plate_green {
+	.fight-note__plate-base {
+		background: linear-gradient(135deg, rgb(10, 140, 40) 0%, rgb(10, 120, 30) 100%);
+		box-shadow: inset 0 0 2px rgb(20, 160, 50);
+	}
+}
+
+@mixin fight-note__plate_orange {
+	.fight-note__plate-base {
+		background: linear-gradient(135deg, rgb(210, 140, 20) 0%, rgb(190, 120, 20) 100%);
+		box-shadow: inset 0 0 2px rgb(240, 160, 20);
+	}
+}
+
+@mixin fight-note__plate_purple {
+	.fight-note__plate-base {
+		background: linear-gradient(135deg, rgb(110, 70, 180) 0%, rgb(90, 60, 150) 100%);
+		box-shadow: inset 0 0 2px rgb(130, 80, 210);
+	}
+}
+
+@mixin fight-note__plate_purple-blue {
+	.fight-note__plate-base {
+		background: linear-gradient(135deg, rgb(170, 30, 200) 0%, rgb(20, 100, 150) 100%);
+		box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.5);
+	}
+}
+
+@mixin fight-note__plate_white {
+	.fight-note__plate-base {
+		background: linear-gradient(135deg, rgb(240, 240, 250) 0%, rgb(220, 225, 230) 100%);
+		box-shadow: inset 0 0 2px rgb(255, 255, 255);
+	}
+	.fight-note__plate-content {
+		color: rgb(20, 20, 20);
+	}
+}
+
+@mixin fight-note__plate_rotate-right { .fight-note__plate-base { transform: rotateZ(4deg); } }
+@mixin fight-note__plate_rotate-left { .fight-note__plate-base { transform: rotateZ(-4deg); } }
+@mixin fight-note__plate_skew-right { .fight-note__plate-base { transform: skewX(-6deg); } }
+@mixin fight-note__plate_skew-left { .fight-note__plate-base { transform: skewX(6deg); } }
+@mixin fight-note__plate_skew-up { .fight-note__plate-base { transform: skewY(4deg); } }
+@mixin fight-note__plate_skew-down { .fight-note__plate-base { transform: skewY(-4deg); } }
+
+// Special.
+
+.fight-note {
+	&__input-common-stance {
+		@include fight-note__plate_red;
+		@include fight-note__plate_skew-left;
+	}
+
+	&__input-special-move {
+		@include fight-note__plate_red;
+		@include fight-note__plate_skew-right;
+	}
+}
+
+// Specific.
+
+.fight-note {
+	&__input-specific-move {
+		@include fight-note__plate_white;
+	}
+
+	&__input-specific-action {
+		@include fight-note__plate_blue;
+		@include fight-note__plate_skew-up;
+	}
+}
+
+// Custom.
+
+.fight-note {
+	&__input-custom_red { @include fight-note__plate_red; }
+	&__input-custom_green { @include fight-note__plate_green; }
+	&__input-custom_blue { @include fight-note__plate_blue; }
+	&__input-custom_orange { @include fight-note__plate_orange; }
+	&__input-custom_purple { @include fight-note__plate_purple; }
+	&__input-custom_rotate-right { @include fight-note__plate_rotate-right; }
+	&__input-custom_rotate-left { @include fight-note__plate_rotate-left; }
+	&__input-custom_skew-right { @include fight-note__plate_skew-right; }
+	&__input-custom_skew-left { @include fight-note__plate_skew-left; }
+	&__input-custom_skew-up { @include fight-note__plate_skew-up; }
+	&__input-custom_skew-down { @include fight-note__plate_skew-down; }
+}
+
+// Other settings.
+
+.fight-note__settings__inputs-size {
+	&_default {
+		.fight-note__plate-content {
+			margin-top: 1px;
+		}
+	}
+
+	&_small {
+		.fight-note__input {
+			max-height: 30px;
+			min-height: 30px;
+		}
+
+		.fight-note__input-svg {
+			height: 30px;
+		}
+
+		.fight-note__plate {
+			font-size: 1rem;
+			height: 30px;
+		}
+
+		.fight-note__plate-base {
+			border: 1px solid rgb(0, 0, 0);
+			border-radius: 4px;
+			margin: 0 4px;
+			padding: 2px 6px 2px 6px;
+		}
+	}
+
+	&_big {
+		.fight-note__input {
+			max-height: 75px;
+			min-height: 75px;
+		}
+
+		.fight-note__input-svg {
+			height: 75px;
+		}
+
+		.fight-note__plate {
+			height: 75px;
+			font-size: 2rem;
+		}
+
+		.fight-note__plate-base {
+			border: 3px solid rgb(0, 0, 0);
+			border-radius: 6px;
+			margin: 0 10px;
+			padding: 5px 10px 5px 10px;
+		}
+	}
+}
+
+.fight-note__settings__wrap-inputs {
+	&_true {
+		.fight-note__inputs {
+			flex-wrap: wrap;
+		}
+	}
+
+	&_false {
+		.fight-note__inputs {
+			flex-wrap: nowrap;
+			overflow-x: scroll;
+			overflow-y: hidden;
+
+		}
+	}
+}
