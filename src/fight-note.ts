@@ -1,5 +1,5 @@
 import { sanitizeHTMLToDom, setTooltip } from "obsidian";
-import { fontData, prefix, notation, svg, alias, Notation } from "./fight-note-data";
+import { fontData, prefix, notation, svgData, alias, Notation } from "./fight-note-data";
 import { FightNotePluginSettings } from "./settings";
 
 export async function processNote(source: string,
@@ -88,15 +88,6 @@ async function renderNote(note: Note): Promise<HTMLDivElement> {
 			}
 		});
 
-	frame.appendChild(sanitizeHTMLToDom(`
-		<defs>
-			<linearGradient id="aaa" x2="0.5" y2="1">
-				<stop offset="0%" stop-color="purple" />
-				<stop offset="100%" stop-color="purple" />
-			</linearGradient>
-		</defs>
-	`));
-
 	frame.appendChild(header);
 	frame.appendChild(inputs);
 	frame.appendChild(footer);
@@ -176,13 +167,13 @@ class Render {
 	notation(notation: Notation): HTMLDivElement {
 		const container: HTMLDivElement = createDiv({ cls: notation.cls });
 
-		if (svg[notation.svg]) {
+		if (svgData[notation.svg]) {
 			// Get SVG object from SVG string.
-			const svgEl: DocumentFragment = sanitizeHTMLToDom(svg[notation.svg]);
+			const svg: DocumentFragment = sanitizeHTMLToDom(svgData[notation.svg]);
 			// Find all shapes, which require a gradient.
-			const shapes: HTMLElement[] = svgEl.findAll("*[data-gradient]");
+			const shapes: HTMLElement[] = svg.findAll("*[data-gradient]");
 			// Each shape will have its own gradient with a unique identifier and color .
-			const defs: HTMLElement = svgEl.find("defs");
+			const defs: HTMLElement = svg.find("defs");
 			shapes.forEach(shape => {
 				const gradient: string|null = shape.getAttr("data-gradient");
 				if (gradient) {
@@ -193,7 +184,7 @@ class Render {
 				}
 			});
 
-			container.appendChild(svgEl);
+			container.appendChild(svg);
 		} else {
 			container.appendChild(this.plate(notation.input))
 		}

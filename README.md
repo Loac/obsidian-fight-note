@@ -1,4 +1,4 @@
-# Fight notes
+# Fight Note
 
 This is a plugin for [Obsidian.md](https://obsidian.md/) that shows [Tekken notation](https://tekken.fandom.com/wiki/Move_Terminology) into an easy-to-read form.
 
