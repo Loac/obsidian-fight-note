@@ -3,10 +3,10 @@ import FightNotePlugin from "./main";
 import { Notation, prefix } from "./fight-note-data";
 
 export const DEFAULT_SETTINGS: FightNotePluginSettings = {
-	buttons: 'default',
-	inputsSize: 'default',
-	wrapInputs: false,
-	customNotationsRaw: '',
+	buttons: "default",
+	inputsSize: "default",
+	wrapInputs: true,
+	customNotationsRaw: "",
 	customNotations: {},
 }
 
@@ -32,16 +32,16 @@ export class FightNoteSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Buttons')
-			.setDesc('Colors for action buttons.')
+			.setName("Buttons")
+			.setDesc("Colors for action buttons.")
 			.addDropdown(component => {
 				component
 					.addOptions({
-						'default': 'Default',
-						'xbox': 'XBox',
-						'ps': 'Play Station',
+						"default": "Default",
+						"xbox": "XBox",
+						"ps": "Play Station",
 					})
-					.setValue(this.plugin.settings.buttons ?? 'default')
+					.setValue(this.plugin.settings.buttons ?? "default")
 					.onChange(async value => {
 						this.plugin.settings.buttons = value;
 						await this.plugin.saveSettings();
@@ -49,16 +49,16 @@ export class FightNoteSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName('Inputs size')
-			.setDesc('Size of input icons and special plates.')
+			.setName("Inputs size")
+			.setDesc("Size of input icons and special plates.")
 			.addDropdown(component => {
 				component
 					.addOptions({
-						'default': 'Default',
-						'small': 'Small',
-						'big': 'Big',
+						"default": "Default",
+						"small": "Small",
+						"big": "Big",
 					})
-					.setValue(this.plugin.settings.inputsSize ?? 'default')
+					.setValue(this.plugin.settings.inputsSize ?? "default")
 					.onChange(async value => {
 						this.plugin.settings.inputsSize = value;
 						await this.plugin.saveSettings();
@@ -66,22 +66,22 @@ export class FightNoteSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName('Wrap inputs')
-			.setDesc('Wrap inputs if it exceeds frame width.')
+			.setName("Wrap inputs")
+			.setDesc("Wrap inputs if it exceeds frame width.")
 			.addToggle(component => {
 				component
-					.setValue(this.plugin.settings.wrapInputs ?? false)
+					.setValue(this.plugin.settings.wrapInputs ?? true)
 					.onChange(async value => {
 						this.plugin.settings.wrapInputs = value;
 						await this.plugin.saveSettings();
 					});
 			});
 		new Setting(containerEl)
-			.setName('Custom notations')
-			.setDesc('You can define your own notations.')
+			.setName("Custom notations")
+			.setDesc("You can define your own notations.")
 			.addTextArea(component => {
 				component
-					.setValue(this.plugin.settings.customNotationsRaw ?? '')
+					.setValue(this.plugin.settings.customNotationsRaw ?? "")
 					.onChange(async value => {
 						this.plugin.settings.customNotationsRaw = value;
 						this.plugin.settings.customNotations = parseCustomNotation(value);
@@ -90,15 +90,15 @@ export class FightNoteSettingTab extends PluginSettingTab {
 			})
 			.then(setting => {
 				setting.settingEl.setAttr("width", "300px")
-				setting.descEl.createEl('br');
+				setting.descEl.createEl("br");
 				setting.descEl.createEl(
-					'a',
+					"a",
 					{
-						text: 'More details.',
-						href: 'https://github.com/Loac/obsidian-fight-note',
+						text: "More details.",
+						href: "https://github.com/Loac/obsidian-fight-note?tab=readme-ov-file#custom",
 					},
 					a => {
-						a.setAttr('target', '_blank');
+						a.setAttr("target", "_blank");
 					},
 				);
 			});

@@ -1,5 +1,5 @@
-import { Plugin } from 'obsidian';
-import { processNote, loadFont } from './fight-note';
+import { Plugin } from "obsidian";
+import { processNote, loadFont } from "./fight-note";
 import { DEFAULT_SETTINGS, FightNotePluginSettings, FightNoteSettingTab } from "./settings";
 
 export default class FightNotePlugin extends Plugin {
