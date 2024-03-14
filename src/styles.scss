@@ -9,12 +9,16 @@
 // __special – classes for Special plates.
 // __specific – classes for Specific plates.
 
+@import "font";
+
 // Main frame of note.
 
 .fight-note {
+
 	&__frame {
 		background: rgb(29, 33, 44);
 		border: 5px solid rgb(20, 22, 31);
+		margin: 10px 0;
 		padding: 10px;
 	}
 
@@ -22,15 +26,11 @@
 
 	&__header {
 		display: flex;
-		font-family: "Trump Gothic East", Arial, serif;
+		font-family: "Trump Gothic", Arial, serif;
 		font-size: 36px;
 		justify-content: space-between;
-	}
-
-	&__title {
 		line-height: 1;
-		padding: 0 0 12px 0;
-		height: 48px;
+		padding: 0 2px 10px 2px;
 	}
 
 	// Footer.
@@ -38,27 +38,29 @@
 	&__footer {
 		align-items: end;
 		display: flex;
-		font-family: "Trump Gothic East", Arial, serif;
+		font-family: "Trump Gothic", Arial, serif;
 		font-size: 20px;
 		line-height: 1;
-		padding: 0 0 0 2px;
+		padding: 8px 2px 0 2px;
 	}
 
 	&__hits {
 		color: rgb(240, 150, 0);
-		padding: 8px 0 0 0;
 	}
 
 	&__damage {
 		color: rgb(220, 200, 0);
-		padding: 8px 0 0 0;
 	}
 
 	&__separator {
-		background: rgb(12, 73, 90);
-		height: 16px;
-		margin: 2px 8px 2px 8px;
+		//height: 10px;
+		color: rgb(12, 73, 90);
+		margin: 2px 8px;
 		width: 2px;
+
+		&::after {
+			content: "|";
+		}
 	}
 
 	// Line inputs.
@@ -77,6 +79,10 @@
 		display: block;
 		height: 50px;
 		width: auto;
+	}
+
+	&__hidden {
+		display: none;
 	}
 }
 
@@ -296,14 +302,12 @@
 }
 
 .fight-note__icon-heat {
-	--plate-color-light: rgb(20, 250, 230);
-	--plate-color-middle: rgb(80, 120, 250);
-	--plate-color-dark: rgb(200, 0, 255);
+	--plate-color-light: rgb(70, 120, 250);
+	--plate-color-dark: rgb(200, 0, 250);
 
 	.fight-note__icon-background { @include fight-note__input-background; }
 	.fight-note__icon-plate {
-		fill: url(#fight-note__icon-heat__gradient);
-		stroke: rgb(100, 255, 240, 0.3);
+		stroke: rgb(180, 200, 250, 0.4);
 		stroke-width: 15;
 	}
 	.fight-note__icon-figure {
@@ -317,7 +321,7 @@
 	align-items: center;
 	color: rgb(255, 255, 255);
 	display: flex;
-	font-family: "Trump Gothic East", Arial, serif;
+	font-family: "Trump Gothic", Arial, serif;
 	font-size: 1.3rem;
 	height: 50px;
 	line-height: 1;
@@ -473,7 +477,15 @@
 			border: 1px solid rgb(0, 0, 0);
 			border-radius: 4px;
 			margin: 0 4px;
-			padding: 2px 6px 2px 6px;
+			padding: 2px 6px;
+		}
+
+		.fight-note__header {
+			font-size: 26px;
+		}
+
+		.fight-note__footer {
+			font-size: 14px;
 		}
 	}
 
@@ -496,7 +508,15 @@
 			border: 3px solid rgb(0, 0, 0);
 			border-radius: 6px;
 			margin: 0 10px;
-			padding: 5px 10px 5px 10px;
+			padding: 5px 10px;
+		}
+
+		.fight-note__header {
+			font-size: 46px;
+		}
+
+		.fight-note__footer {
+			font-size: 24px;
 		}
 	}
 }
@@ -513,7 +533,6 @@
 			flex-wrap: nowrap;
 			overflow-x: scroll;
 			overflow-y: hidden;
-
 		}
 	}
 }

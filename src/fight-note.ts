@@ -1,5 +1,5 @@
 import { sanitizeHTMLToDom, setTooltip } from "obsidian";
-import { fontData, prefix, notation, svgData, alias, Notation } from "./fight-note-data";
+import { prefix, notation, svgData, alias, Notation } from "./fight-note-data";
 import { FightNotePluginSettings } from "./settings";
 
 export async function processNote(source: string,
@@ -9,18 +9,6 @@ export async function processNote(source: string,
 	const note: Note = parseNote(source);
 	const noteElement: HTMLDivElement = await renderNote(note);
 	el.appendChild(noteElement);
-}
-
-export async function loadFont(): Promise<void> {
-	const font: FontFace = new FontFace("Trump Gothic East", "url(" + fontData +")", {
-		style: "normal",
-		weight: "400",
-		stretch: "condensed",
-	});
-
-	await font.load();
-
-	(document as any).fonts.add(font);
 }
 
 /**
@@ -87,6 +75,11 @@ async function renderNote(note: Note): Promise<HTMLDivElement> {
 				inputs.appendChild(render.custom(value));
 			}
 		});
+
+	if (!header.hasChildNodes())
+		header.addClass("fight-note__hidden");
+	if (!footer.hasChildNodes())
+		footer.addClass("fight-note__hidden");
 
 	frame.appendChild(header);
 	frame.appendChild(inputs);
