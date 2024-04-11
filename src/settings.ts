@@ -1,10 +1,12 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import FightNotePlugin from "./main";
-import { Notation, prefix } from "./fight-note-data";
+import {Notation, NotationTooltip, prefix} from "./fight-note-data";
 
 export const DEFAULT_SETTINGS: FightNotePluginSettings = {
 	buttons: "default",
 	inputsSize: "default",
+	tooltipStyle: "default",
+	shortcutStyle: "default",
 	wrapInputs: true,
 	customNotationsRaw: "",
 	customNotations: {},
@@ -13,6 +15,8 @@ export const DEFAULT_SETTINGS: FightNotePluginSettings = {
 export interface FightNotePluginSettings {
 	buttons: string;
 	inputsSize: string;
+	tooltipStyle: string;
+	shortcutStyle: string;
 	wrapInputs: boolean;
 	customNotationsRaw: string;
 	customNotations: { [key: string]: Notation };
@@ -66,6 +70,40 @@ export class FightNoteSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
+			.setName("Tooltip style")
+			.setDesc("Extend tooltips may provide additional information about notation.")
+			.addDropdown(component => {
+				component
+					.addOptions({
+						"default": "Default",
+						"extend": "Extend",
+						"hidden": "Hidden",
+					})
+					.setValue(this.plugin.settings.tooltipStyle ?? "default")
+					.onChange(async value => {
+						this.plugin.settings.tooltipStyle = value;
+						await this.plugin.saveSettings();
+					});
+			});
+
+		new Setting(containerEl)
+			.setName("Shortcut style")
+			.setDesc("Some notations may be expanded or output as an icon.")
+			.addDropdown(component => {
+				component
+					.addOptions({
+						"default": "Default",
+						"icon": "Icon",
+						"expand": "Expand",
+					})
+					.setValue(this.plugin.settings.shortcutStyle ?? "default")
+					.onChange(async value => {
+						this.plugin.settings.shortcutStyle = value;
+						await this.plugin.saveSettings();
+					});
+			});
+
+		new Setting(containerEl)
 			.setName("Wrap inputs")
 			.setDesc("Wrap inputs if it exceeds frame width.")
 			.addToggle(component => {
@@ -114,10 +152,12 @@ function parseCustomNotation(data: string): { [key: string]: Notation } {
 
 		if (parts.length == 3) {
 			const input: string = parts[0];
-			const classes: string[] = split(parts[1], ",")
-				.map(item => prefix + "input-custom_" + item);
+			const classes: string[] = [prefix + "input"];
+			split(parts[1], ",")
+				.map(item => prefix + "input-custom_" + item)
+				.forEach(item => classes.push(item));
 			const tooltip: string = parts[2];
-			notations[input] = new Notation(input, classes, tooltip);
+			notations[input] = new Notation(input, classes, new NotationTooltip(tooltip, [], ""));
 		}
 	});
 

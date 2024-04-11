@@ -4,12 +4,11 @@ This is a plugin for [Obsidian.md](https://obsidian.md/) that shows [Tekken nota
 
 ## Installation
 
-`Settings / Community plugins / Community Plugins / Browse` and search for `Fight note`.
+`Settings / Community plugins / Community Plugins / Browse` and search for `Fight Note`.
 
 ## Usage
 
-In the editor, type out a code block with name `fight` as the language. 
-Specify your notations on the subsequent lines.
+In the editor, type out a code block with name `fight` as the language. Specify your notations on the subsequent lines.
 
 ### Examples
 
@@ -36,8 +35,7 @@ FC df 3 > DASH > f 2 3 2
 
 ![Short notation](https://i.imgur.com/frwILDO.png)
 
-Any combination of characters separated by spaces is considered notation. If you want to add a brief comment, 
-enclose it in quotation marks.
+Any combination of characters separated by spaces is considered notation. If you want to add a brief comment, enclose it in quotation marks.
 
 	```fight
 	df 2 > 2+3 > 2+3 "Default heat combo"
@@ -45,12 +43,11 @@ enclose it in quotation marks.
 
 ![Custom notation](https://i.imgur.com/fC6LPbb.png)
 
-The plugin has several options where you can change the size and color of the notations. 
-Big notation with monochrome button colors:
+The plugin has several options where you can change the size and color of the notations. Big notation with monochrome button colors:
 
 ![Big notation](https://i.imgur.com/HpDcN2l.png)
 
-Small notation with Play station button colors:
+Small notation with Play Station button colors:
 
 ![Small notation](https://i.imgur.com/8LMe1TB.png)
 
@@ -78,9 +75,9 @@ Notations have different appearances depending on type.
 
 You can add or override existing notations in settings. Use several colors and effects:
 
-- Colors: `red`, `blue`, `green`, `orange`, `purple`.
-- Effects: `rotate-right`, `rotate-left`, `skew-right`, `skew-left`, `skew-up`, `skew-down`
-
+- Color: `red`, `blue`, `green`, `orange`, `purple`.
+- Effect: `rotate-right`, `rotate-left`, `skew-right`, `skew-left`, `skew-up`, `skew-down`.
+- Round: `round-top-left`, `round-top-right`, `round-bottom-left`, `round-bottom-right`, `round-all`.
 
 #### Example
 
@@ -93,6 +90,18 @@ CAT:orange,rotate-right:Catastrophe (Anna)
 
 ![Custom](https://i.imgur.com/6qhycZq.png)
 
+## Shortcuts
+
+You can use few standard shortcuts. In settings can select render style – default, icon, expand:
+
+![Shortcuts](https://i.imgur.com/hqM8sDG.png)
+
+## Extend tooltips
+
+Some notations contain additional information. To display it, you need to enable option in settings.
+
+![Extend Tooltips](https://i.imgur.com/uhp9C6I.png)
+
 ## Inputs
 
 ### Actions 
@@ -101,7 +110,8 @@ CAT:orange,rotate-right:Catastrophe (Anna)
 - `2`: Right Punch. 
 - `3`: Left Kick. 
 - `4`: Right Kick. 
-- `1+2`: Left and Right Punch. And other similar combinations.
+- `12`, `1+2`: Left and Right Punch.
+- `34`, `3+4`: Left and Right Kick. And other similar combinations.
 
 ### Moves
 
@@ -155,55 +165,61 @@ CAT:orange,rotate-right:Catastrophe (Anna)
 
 ### Specific
 
-- `ALB`: Albatross spin (Steve Fox)
-- `AOP`: Art of Phoenix (Ling Xiaoyu)
+- `AOP`: Art of Phoenix (Xiaoyu)
 - `BKP`: Backup (Alisa)
-- `BOOT`: Boot (Alisa Bosconovitch)
-- `CDS`: Crouching Demon Stance (Jin Kazama)
+- `BOK`: Fo Bu (Leo)
+- `BOOT`: Boot (Alisa)
+- `CDS`: Crouching Demon Stance (Jin)
 - `DBT`: Dual Boot (Alisa)
-- `DCK`: Ducking (Steve Fox)
-- `DEN`: Dynamic Entry (Lars Alexandersson)
-- `DES`: Destructive Form (Alisa Bosconovitch)
+- `DCK`: Ducking (Steve)
+- `DEN`: Dynamic Entry (Lars)
+- `DES`: Destructive Form (Alisa)
+- `DEW`: Dew Glide (Lili)
 - `DGF`: Manji Dragonfly (Yoshimitsu)
 - `DPD`: Deep Dive (Paul) 
-- `DSS`: Dragon Sign Stance (Marshall Law)
+- `DSS`: Dragon Sign Stance (Law)
 - `EWGF`: Electric Wind God Fist (Kazuya, Reina, Devil Jin and Jin)
-- `EXD`: Ducking In (Steve Fox)
+- `EXD`: Ducking In (Steve)
 - `FLE`: Flea (Yoshimitsu)
-- `FLK`: Flicker Stance (Steve Fox)
+- `FLK`: Flicker Stance (Steve)
 - `FLY`: Fly (Devil Jin)
 - `GEN`: Genjitsu (Jun)
 - `GMH`: Gamma Howl (Jack-8)
 - `HAZ`: Haze (Raven)
-- `HMS`: Hit Man Stance (Lee Chaolan)
-- `HPF`: Whiplash Combo (Asuka Kazama / Jun Kazama)
+- `HMS`: Hit Man Stance (Lee)
+- `HPF`: Whiplash Combo (Asuka / Jun)
+- `HRM`: Hermit (Leroy)
+- `HSP`: Bananeira (Eddy)
 - `HYP`: Hypnotist (Xiaoyu)
 - `IND`: Indian Stance (Yoshimitsu)
-- `INS`: Indian Stance (Yoshimitsu)
 - `IZU`: Izumo (Jun)
 - `JGR`: Jaguar Sprint/Jaguar Run (King)
 - `JGS`: Jaguar Step (King)
 - `KIN`: Kincho (Yoshimitsu)
-- `KNK`: Jin Ji Du Li (Leo Kliesen)
-- `KNP`: Kenpo step (Feng Wei)
-- `LCT`: Leg Cutter (Asuka Kazama / Jun Kazama)
+- `KNK`: Jin Ji Du Li (Leo)
+- `SSH`: Senshin (Reina)
+- `UNS`: Unsoku (Reina)
+- `WRA`: Heaven's Wrath (Reina)
+- `KNP`: Kenpo step (Feng)
+- `LCT`: Leg Cutter (Asuka / Jun)
 - `LFF`: Left Foot Forward (Hwoarang)
 - `LFS`: Left Flamingo Stance (Hwoarang)
 - `LIB`: Libertador (Azucena)
-- `LNH`: Lionheart (Steve Fox)
-- `LWV`: Ducking Left (Steve Fox)
+- `LNH`: Lionheart (Steve)
+- `LTG`: Lightning Glare (Leo)
+- `LWV`: Ducking Left (Steve)
 - `MCR`: Mourning Crow (Devil Jin)
 - `MED`: Meditation (Yoshimitsu)
 - `MIA`: Miare (Jun)
 - `MNT`: Mantis Stance (Zafina)
 - `NSS`: No Sword Stance (Yoshimitsu)
-- `PAB`: Peekaboo (Steve Fox)
 - `PDP`: Bad Stomach (Yoshimitsu)
-- `PKB`: Peekaboo (Steve Fox)
-- `RDS`: Rain Dance (Ling Xiaoyu)
+- `PKB`: Peekaboo (Steve)
+- `RDS`: Rain Dance (Xiaoyu)
 - `RFF`: Right Foot Forward (Hwoarang)
 - `RFS`: Right Flamingo Stance (Hwoarang)
-- `RWV`: Ducking Right (Steve Fox)
+- `RLX`: Negativa (Eddy)
+- `RWV`: Ducking Right (Steve)
 - `SCR`: Scarecrow Stance (Zafina)
 - `SDW`: Shadow stance (Raven)
 - `SEN`: Sentai (Reina)
@@ -212,15 +228,15 @@ CAT:orange,rotate-right:Catastrophe (Anna)
 - `SNE`: Snake Eyes (Bryan)
 - `SNK`: Sneak (Dragunov)
 - `SSH`: Senshin (Reina)
-- `STB`: Starburst (Claudio Serafino)
-- `STC`: Shifting Clouds (Feng Wei)
+- `STB`: Starburst (Claudio)
+- `STC`: Shifting Clouds (Feng)
 - `SWA`: Sway (Bryan)
-- `SWY`: Sway Back (Steve Fox)
-- `TFS`: Fake Step (Marshall Law)
+- `SWY`: Sway Back (Steve)
+- `TFS`: Fake Step (Law)
 - `TRT`: Tarantula Stance (Zafina)
 - `UNS`: Unsoku (Reina)
 - `WDS`: Wind Step (Reina)
-- `WGS`: Wind God Step (Kazuya, Reina, Devil Jin and Jin)
+- `WGS`: Wind God Step (Reina)
 - `WRA`: Heaven's Wrath (Reina)
 - `ZEN`: Zenshin (Jin)
 

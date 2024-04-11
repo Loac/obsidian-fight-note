@@ -1,5 +1,5 @@
 import { sanitizeHTMLToDom, setTooltip } from "obsidian";
-import { prefix, notation, svgData, alias, Notation } from "./fight-note-data";
+import { prefix, notations, svgData, alias, Notation, NotationTooltip } from "./fight-note-data";
 import { FightNotePluginSettings } from "./settings";
 
 export async function processNote(source: string,
@@ -65,10 +65,10 @@ async function renderNote(note: Note): Promise<HTMLDivElement> {
 		.forEach(value => {
 			if (value in this.settings.customNotations) {
 				inputs.appendChild(render.notation(this.settings.customNotations[value]));
-			} else if (value in notation) {
-				inputs.appendChild(render.notation(notation[value]));
+			} else if (value in notations) {
+				inputs.appendChild(render.notation(notations[value]));
 			} else if (value in alias) {
-				inputs.appendChild(render.notation(notation[alias[value]]));
+				inputs.appendChild(render.notation(notations[alias[value]]));
 			} else if (note.strings[value]) {
 				inputs.appendChild(render.custom(note.strings[value]));
 			} else {
@@ -76,14 +76,11 @@ async function renderNote(note: Note): Promise<HTMLDivElement> {
 			}
 		});
 
-	if (!header.hasChildNodes())
-		header.addClass("fight-note__hidden");
-	if (!footer.hasChildNodes())
-		footer.addClass("fight-note__hidden");
-
-	frame.appendChild(header);
+	if (header.hasChildNodes())
+		frame.appendChild(header);
 	frame.appendChild(inputs);
-	frame.appendChild(footer);
+	if (footer.hasChildNodes())
+		frame.appendChild(footer);
 
 	return frame;
 }
@@ -153,39 +150,134 @@ class Render {
 
 	/**
 	 * Render notation. SVG or HTML div will be used.
-	 * Obsidian can't draw correctly SVG with the same gradient ID. Therefore, for each SVG shape,
-	 * that requires a gradient, it is necessary to generate a gradient with a unique ID and associate
-	 * it with that shape.
 	 */
 	notation(notation: Notation): HTMLDivElement {
 		const container: HTMLDivElement = createDiv({ cls: notation.cls });
 
-		if (svgData[notation.svg]) {
-			// Get SVG object from SVG string.
-			const svg: DocumentFragment = sanitizeHTMLToDom(svgData[notation.svg]);
-			// Find all shapes, which require a gradient.
-			const shapes: HTMLElement[] = svg.findAll("*[data-gradient]");
-			// Each shape will have its own gradient with a unique identifier and color .
-			const defs: HTMLElement = svg.find("defs");
-			shapes.forEach(shape => {
-				const gradient: string|null = shape.getAttr("data-gradient");
-				if (gradient) {
-					const uuid: string = "gradient-" + crypto.randomUUID();
-					shape.setAttr("fill", "url(#" + uuid + ")");
-					const vars: string[] = gradient.split(",");
-					defs.appendChild(this.gradient(uuid, vars[0], vars[1]));
-				}
-			});
-
-			container.appendChild(svg);
+		if (notation.expand) {
+			this.shortcut(container, notation);
+		} else if (svgData[notation.svg]) {
+			container.appendChild(this.svg(svgData[notation.svg]));
 		} else {
-			container.appendChild(this.plate(notation.input))
+			container.appendChild(this.plate(notation.input));
 		}
 
-		if (notation.tooltip)
-			setTooltip(container, notation.tooltip!);
+		if (notation.tooltip) {
+			if (this.settings.tooltipStyle == "default") {
+				this.setTooltip(container, notation.tooltip);
+			} else if (this.settings.tooltipStyle == "extend") {
+				this.setTooltipExtend(container, notation.tooltip,
+					notation.expand == undefined || this.settings.shortcutStyle != "expand");
+			}
+		}
 
 		return container;
+	}
+
+	/**
+	 * Render shortcut notation is affected by the plugin parameters.
+	 */
+	shortcut(container: HTMLDivElement, notation: Notation): void {
+		// Expand notation, if possible.
+		if (notation.expand && this.settings.shortcutStyle == "expand") {
+			notation.expand.forEach(item => {
+				container.appendChild(this.notation(notations[item]));
+			});
+		} else if (svgData[notation.svg] && this.settings.shortcutStyle == "icon") {
+			container.appendChild(this.svg(svgData[notation.svg]));
+		} else {
+			container.appendChild(this.plate(notation.input));
+		}
+	}
+
+	/**
+	 * Render SVG document.
+	 * Obsidian can't draw correctly SVG with the same gradient ID. Therefore, for each SVG shape,
+	 * that requires a gradient, it is necessary to generate a gradient with a unique ID and associate
+	 * it with that shape.
+	 */
+	svg(svgDocument: string): DocumentFragment {
+		// Get SVG object from SVG string.
+		const svg: DocumentFragment = sanitizeHTMLToDom(svgDocument);
+		// Find all shapes, which require a gradient.
+		const shapes: HTMLElement[] = svg.findAll("*[data-gradient]");
+		// Each shape will have its own gradient with a unique identifier and color .
+		const defs: HTMLElement = svg.find("defs");
+		shapes.forEach(shape => {
+			const gradient: string|null = shape.getAttr("data-gradient");
+			if (gradient) {
+				const uuid: string = "gradient-" + crypto.randomUUID();
+				shape.setAttr("fill", "url(#" + uuid + ")");
+				const vars: string[] = gradient.split(",");
+				defs.appendChild(this.gradient(uuid, vars[0], vars[1]));
+			}
+		});
+
+		return svg;
+	}
+
+	/**
+	 * Set default tooltip.
+	 */
+	setTooltip(container: HTMLDivElement, notationTooltip: NotationTooltip): void {
+		if (notationTooltip.name == undefined)
+			return;
+
+		let text: string = notationTooltip.name;
+		if (notationTooltip.characters)
+			text += " (" + notationTooltip.characters.join(", ") + ")";
+
+		setTooltip(container, text);
+	}
+
+	/**
+	 * Set extend tooltip.
+	 */
+	setTooltipExtend(container: HTMLDivElement, notationTooltip: NotationTooltip, showInput: boolean): void {
+		container.addEventListener("mouseenter", (): void => {
+			const body: HTMLBodyElement | null = document.querySelector("body");
+
+			if (body && notationTooltip) {
+				const tooltip: HTMLDivElement = this.tooltip(notationTooltip, showInput);
+				body.appendChild(tooltip);
+
+				const src: DOMRect = container.getBoundingClientRect();
+				const dst: DOMRect = tooltip.getBoundingClientRect();
+
+				tooltip.setCssProps({
+					top: src.top + src.height + "px",
+					left: src.left + (src.width / 2) - (dst.width / 2) + "px",
+					animation: "scale-up-center 0.2s cubic-bezier(0.680, -0.550, 0.265, 1.550) both",
+				});
+			}
+		});
+		container.addEventListener("mouseleave", (): void => {
+			document.querySelectorAll(".fight-note__tooltip")
+				.forEach(e => e.remove())
+		})
+	}
+
+	/**
+	 * Render extend tooltip.
+	 */
+	tooltip(notationTooltip: NotationTooltip, showInput: boolean): HTMLDivElement {
+		const tooltip: HTMLDivElement = createDiv({ cls: [prefix + "tooltip"] });
+
+		if (notationTooltip.name || notationTooltip.characters) {
+			const text: HTMLDivElement = createDiv({ cls: [prefix + "tooltip-text"] });
+			tooltip.appendChild(text);
+
+			if (notationTooltip.name)
+				this.append(text, notationTooltip.name, [prefix + "tooltip-name"]);
+
+			if (notationTooltip.characters)
+				this.append(text, notationTooltip.characters.join(", "), [prefix + "tooltip-characters"]);
+		}
+
+		if (notationTooltip.input && showInput)
+			this.append(tooltip, notationTooltip.input, [prefix + "tooltip-input"]);
+
+		return tooltip;
 	}
 
 	/**
@@ -193,10 +285,13 @@ class Render {
 	 */
 	custom(text: string): HTMLDivElement {
 		const container: HTMLDivElement = createDiv({ cls: [prefix + "input", prefix + "input-custom"] });
-		container.appendChild(this.plate(text))
+		container.appendChild(this.plate(text));
 		return container;
 	}
 
+	/**
+	 * Render plate notation, like WGS, SEN, DES and etc.
+	 */
 	plate(text: string): HTMLDivElement {
 		const plate: HTMLDivElement = createDiv({ cls: prefix + "plate"});
 		const base: HTMLDivElement = createDiv({ cls: prefix + "plate-base"});
@@ -206,6 +301,15 @@ class Render {
 		plate.appendChild(base);
 		plate.appendChild(content);
 		return plate;
+	}
+
+	/**
+	 * Append to element simple div with text.
+	 */
+	append(el: HTMLElement, text: string, cls: string[]): void {
+		const child: HTMLDivElement = createDiv({ cls: cls });
+		child.setText(text);
+		el.appendChild(child);
 	}
 }
 

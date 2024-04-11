@@ -53,7 +53,6 @@
 	}
 
 	&__separator {
-		//height: 10px;
 		color: rgb(12, 73, 90);
 		margin: 2px 8px;
 		width: 2px;
@@ -79,10 +78,6 @@
 		display: block;
 		height: 50px;
 		width: auto;
-	}
-
-	&__hidden {
-		display: none;
 	}
 }
 
@@ -187,10 +182,16 @@
 	fill: rgb(215, 220, 225);
 }
 
-@mixin  fight-note__movement__in_invert {
+@mixin fight-note__movement__in_invert {
 	fill: rgb(0, 0, 0);
 	stroke: rgb(0, 0, 0);
 	stroke-width: 10;
+}
+
+@mixin fight-note__movement__line {
+	stroke: black;
+	stroke-width: 10;
+	fill: none;
 }
 
 .fight-note__input-neutral {
@@ -210,6 +211,8 @@
 	.fight-note__move-out { @include fight-note__movement__out_invert; }
 	.fight-note__move-in { @include fight-note__movement__in_invert; }
 }
+
+.fight-note__move-line { @include fight-note__movement__line; }
 
 .fight-note__input-u .fight-note__input-svg { transform: rotate(0deg); }
 .fight-note__input-uf .fight-note__input-svg { transform: rotate(45deg); }
@@ -322,7 +325,7 @@
 	color: rgb(255, 255, 255);
 	display: flex;
 	font-family: "Trump Gothic", Arial, serif;
-	font-size: 1.3rem;
+	font-size: 1.4rem;
 	height: 50px;
 	line-height: 1;
 	perspective: 50px;
@@ -399,12 +402,18 @@
 	}
 }
 
+// Effects.
+
 @mixin fight-note__plate_rotate-right { .fight-note__plate-base { transform: rotateZ(4deg); } }
 @mixin fight-note__plate_rotate-left { .fight-note__plate-base { transform: rotateZ(-4deg); } }
 @mixin fight-note__plate_skew-right { .fight-note__plate-base { transform: skewX(-6deg); } }
 @mixin fight-note__plate_skew-left { .fight-note__plate-base { transform: skewX(6deg); } }
 @mixin fight-note__plate_skew-up { .fight-note__plate-base { transform: skewY(4deg); } }
 @mixin fight-note__plate_skew-down { .fight-note__plate-base { transform: skewY(-4deg); } }
+@mixin fight-note__plate_round-top-left { .fight-note__plate-base { border-top-left-radius: var(--effect-corner-round) !important; } }
+@mixin fight-note__plate_round-top-right { .fight-note__plate-base { border-top-right-radius: var(--effect-corner-round) !important; } }
+@mixin fight-note__plate_round-bottom-left { .fight-note__plate-base { border-bottom-left-radius: var(--effect-corner-round) !important; } }
+@mixin fight-note__plate_round-bottom-right { .fight-note__plate-base { border-bottom-right-radius: var(--effect-corner-round) !important; } }
 
 // Special.
 
@@ -433,6 +442,36 @@
 	}
 }
 
+// Shortcut.
+
+.fight-note {
+	&__input-specific-shortcut {
+		@include fight-note__plate_white;
+		display: flex;
+
+		&:hover {
+			//outline: 2px solid rgb(41, 45, 64);
+			//border-radius: 10px;
+		}
+	}
+
+	&__input-hcf,
+	&__input-qcf {
+		@include fight-note__plate_round-top-left;
+		@include fight-note__plate_round-bottom-right;
+	}
+
+	&__input-hcb,
+	&__input-qcb {
+		@include fight-note__plate_round-top-right;
+		@include fight-note__plate_round-bottom-left;
+	}
+}
+
+// Flip SVG of shortcuts only for icon style.
+.fight-note__input-qcb > .fight-note__input-svg { transform: scaleX(-1); }
+.fight-note__input-hcb > .fight-note__input-svg { transform: scaleX(-1); }
+
 // Custom.
 
 .fight-note {
@@ -447,16 +486,35 @@
 	&__input-custom_skew-left { @include fight-note__plate_skew-left; }
 	&__input-custom_skew-up { @include fight-note__plate_skew-up; }
 	&__input-custom_skew-down { @include fight-note__plate_skew-down; }
+	&__input-custom_round-top-left { @include fight-note__plate_round-top-left; }
+	&__input-custom_round-top-right { @include fight-note__plate_round-top-right; }
+	&__input-custom_round-bottom-left { @include fight-note__plate_round-bottom-left; }
+	&__input-custom_round-bottom-right { @include fight-note__plate_round-bottom-right; }
+	&__input-custom_round-all {
+		@include fight-note__plate_round-top-left;
+		@include fight-note__plate_round-top-right;
+		@include fight-note__plate_round-bottom-left;
+		@include fight-note__plate_round-bottom-right;
+	}
 }
 
 // Other settings.
 
-.fight-note__settings__inputs-size {
-	&_default {
-		.fight-note__plate-content {
-			margin-top: 1px;
-		}
+.fight-note__settings {
+	&__inputs-size_default {
+		--effect-corner-round: 15px;
 	}
+
+	&__inputs-size_small {
+		--effect-corner-round: 10px;
+	}
+
+	&__inputs-size_big {
+		--effect-corner-round: 20px;
+	}
+}
+
+.fight-note__settings__inputs-size {
 
 	&_small {
 		.fight-note__input {
@@ -469,7 +527,7 @@
 		}
 
 		.fight-note__plate {
-			font-size: 1rem;
+			font-size: 1.15rem;
 			height: 30px;
 		}
 
@@ -534,5 +592,75 @@
 			overflow-x: scroll;
 			overflow-y: hidden;
 		}
+	}
+}
+
+
+pre code {
+	font-family: FightNote !important;
+	font-size: 1.4rem !important;
+}
+
+// Tooltip.
+
+.fight-note {
+
+	&__tooltip {
+		background: rgb(29, 33, 44);
+		border-radius: 4px;
+		border: 1px solid rgb(33, 36, 51);
+		box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.5);
+		display: flex;
+		left: 50%;
+		line-height: 1;
+		padding: 5px 8px 6px 8px;
+		position: absolute;
+		text-align: center;
+		top: 100%;
+		white-space: nowrap;
+		z-index: 100;
+		align-items: center;
+	}
+
+	&__tooltip-text {
+	}
+
+	&__tooltip-name {
+		font-size: .8rem;
+		color: rgb(200, 200, 200);
+	}
+
+	&__tooltip-characters {
+		font-size: .6rem;
+		color: rgb(150, 150, 150);
+		margin-top: 2px;
+		font-style: italic;
+	}
+
+	&__tooltip-input {
+		font-family: FightNote, serif;
+		color: rgb(200, 200, 200);
+		font-size: 1.2rem;
+
+		&:not(:nth-child(1)) {
+			margin: 0 0 0 10px;
+			padding: 4px 0 6px 8px;
+			border-left: 1px solid rgb(100, 100, 100);
+		}
+	}
+
+	&__input {
+		position: relative;
+	}
+}
+
+@keyframes scale-up-center {
+	0% {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
 	}
 }
