@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg class="fight-note__icon-wall-splat fight-note__input-svg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 960 960" xml:space="preserve">
+	<style type="text/css">
+		.fight-note__icon-figure {
+			fill: rgb(255, 255, 255);
+		}
+		.fight-note__icon-plate {
+			fill: rgb(0, 0, 0);
+		}
+		.fight-note__icon-background {
+			fill: rgb(0, 0, 0);
+			stroke: rgb(0, 0, 0);
+			stroke-width: 80;
+		}
+	</style>
+	<defs></defs>
+	<path class="fight-note__icon-background" d="M768,840H192c-39.8,0-72-32.2-72-72V192c0-39.8,32.2-72,72-72h576c39.8,0,72,32.2,72,72v576 C840,807.8,807.8,840,768,840z"/>
+	<path class="fight-note__icon-plate" data-gradient="var(--plate-color-light),var(--plate-color-dark)" d="M768,840H192c-39.8,0-72-32.2-72-72V192c0-39.8,32.2-72,72-72h576c39.8,0,72,32.2,72,72v576 C840,807.8,807.8,840,768,840z"/>
+	<ellipse class="fight-note__icon-figure" transform="matrix(0.9841 -0.1778 0.1778 0.9841 -50.2681 112.0505)" cx="600.1" cy="336.5" rx="51" ry="51"/>
+	<rect class="fight-note__icon-figure" x="180" y="400" width="130" height="15"/>
+	<rect class="fight-note__icon-figure" x="200" y="505" width="130" height="15"/>
+	<rect class="fight-note__icon-figure" x="230" y="452.6" width="130" height="15"/>
+	<circle class="fight-note__icon-figure" cx="306" cy="224" r="16"/>
+	<circle class="fight-note__icon-figure" cx="276" cy="686" r="16"/>
+	<circle class="fight-note__icon-figure" cx="436" cy="174" r="16"/>
+	<circle class="fight-note__icon-figure" cx="576" cy="774" r="16"/>
+	<path class="fight-note__icon-figure" d="M780,450"/>
+	<polygon class="fight-note__icon-figure" points="677.7,120 699.7,452.9 652.1,840 720,840 767.3,455.4 745.2,120"/>
+	<path class="fight-note__icon-figure" d="M607.8,418.5L579.4,406c-2-0.9-3.8-1.9-5.6-3.1c-17-11.4-96-63.5-121.8-81c-3.6-2.5-8.6-1.5-11.1,2.1 l-11.7,16.9c-2.5,3.6-1.6,8.6,2,11.1l108.6,74.7c5.3,3.6,7.3,10.4,5,16.4L517.9,512c-2.2,6.2-6.6,11.4-12.4,14.5l-152.8,81.9 c-3.7,2-5.1,6.6-3.1,10.4l10.8,20.2c2,3.7,6.6,5.1,10.4,3.1l150.4-80.5c2.8-1.5,6.3-1.1,8.7,1l21.9,20.1c3,2.8,3.5,7.4,1,10.7 L449.1,730.5c-2.7,3.5-2,8.5,1.6,11.2l17.3,13c3.5,2.7,8.5,2,11.2-1.6l108.8-143.9c3.8-5,6.7-10.5,8.8-16.4 c7.8-22.2,27.8-80.1,34.9-109.3C640.6,447.2,633.8,428.7,607.8,418.5z"/>
+</svg>

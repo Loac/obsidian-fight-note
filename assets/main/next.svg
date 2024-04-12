@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg class="fight-note__next fight-note__input-svg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 640 960" xml:space="preserve">
+	<style type="text/css">
+		.fight-note__next-in {
+			fill: rgb(255, 255, 255);
+			stroke: rgb(0, 0, 0);
+			stroke-width: 10;
+		}
+		.fight-note__next-background {
+			stroke: rgb(0, 0, 0);
+			stroke-width: 80;
+		 }
+	</style>
+	<path class="fight-note__next-background" d="M267.1,334.8l159.4,137.7c4.6,4,4.6,11,0,14.9L267.1,625.2c-6.6,5.7-17.1,1.2-17.1-7.5V342.3 C250,333.6,260.5,329.1,267.1,334.8z"/>
+	<path class="fight-note__next-in" d="M267.1,334.8l159.4,137.7c4.6,4,4.6,11,0,14.9L267.1,625.2c-6.6,5.7-17.1,1.2-17.1-7.5V342.3 C250,333.6,260.5,329.1,267.1,334.8z"/>
+</svg>

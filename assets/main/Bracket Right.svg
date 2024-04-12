@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg class="fight-note__bracket-right fight-note__input-svg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 640 960" xml:space="preserve">
+	<style type="text/css">
+		.fight-note__bracket-right-in {
+			fill: rgb(255, 255, 255);
+		}
+		.fight-note__bracket-right-background {
+			stroke: rgb(0, 0, 0);
+			stroke-width: 80;
+		 }
+	</style>
+	<path class="fight-note__bracket-right-background" d="M402.3,160c4.2,0,7.7,3.6,7.7,8v624c0,4.4-3.4,8-7.7,8H237.7c-6.9,0-10.3-8.7-5.4-13.7 c63.6-65.8,113.3-176.8,113.3-306.3s-49.7-240.5-113.3-306.3c-4.9-5-1.5-13.7,5.4-13.7H402.3z"/>
+	<path class="fight-note__bracket-right-in" d="M402.3,160c4.2,0,7.7,3.6,7.7,8v624c0,4.4-3.4,8-7.7,8H237.7c-6.9,0-10.3-8.7-5.4-13.7 c63.6-65.8,113.3-176.8,113.3-306.3s-49.7-240.5-113.3-306.3c-4.9-5-1.5-13.7,5.4-13.7H402.3z"/>
+</svg>

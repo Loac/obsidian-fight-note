@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg class="fight-note__icon-wall-break fight-note__input-svg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 960 960" xml:space="preserve">
+	<style type="text/css">
+		.fight-note__icon-figure {
+			fill: rgb(255, 255, 255);
+		}
+		.fight-note__icon-plate {
+			fill: rgb(0, 0, 0);
+		}
+		.fight-note__icon-background {
+			fill: rgb(0, 0, 0);
+			stroke: rgb(0, 0, 0);
+			stroke-width: 80;
+		}
+	</style>
+	<defs></defs>
+	<path class="fight-note__icon-background" d="M768,840H192c-39.8,0-72-32.2-72-72V192c0-39.8,32.2-72,72-72h576c39.8,0,72,32.2,72,72v576 C840,807.8,807.8,840,768,840z"/>
+	<path class="fight-note__icon-plate" data-gradient="var(--plate-color-light),var(--plate-color-dark)" d="M768,840H192c-39.8,0-72-32.2-72-72V192c0-39.8,32.2-72,72-72h576c39.8,0,72,32.2,72,72v576 C840,807.8,807.8,840,768,840z"/>
+	<rect class="fight-note__icon-figure" x="680" y="120" width="80" height="130"/>
+	<rect class="fight-note__icon-figure" x="680" y="710" width="80" height="130"/>
+	<polygon class="fight-note__icon-figure" points="760.6,479.2 658.1,384.8 658.1,438.5 584.8,438.5 584.8,519.9 658.1,519.9 658.1,573.7"/>
+	<circle class="fight-note__icon-figure" cx="615" cy="165" r="16"/>
+	<path class="fight-note__icon-figure" d="M537.6,449.8c2.8-27.9-3.2-41.4-21.8-45.3s-59.5-13.2-67.4-15 c-19.2-4.4-100.9-23.9-126.9-33.6c-3.5-1.3-7.3,0.5-8.6,4.1l-7.4,21.2c-1.2,3.5,0.6,7.2,4.1,8.5l132.8,35.9c0,0-15,86.6-22.1,102.1 c-6.4,13.8-113.2,73.8-143,94c-3,2.1-3.9,6.4-1.7,9.4l13.1,18.4c2.1,2.9,6.4,3.8,9.3,1.5l118.3-72c2.8-2.1,6.4-2.8,9.9-2.3 l24.7,10.6c4.7,0.8,6.3,7,2.3,9.8l-128.2,86.4c-3,2.1-3.8,6.4-1.5,9.3l13.2,18.4c2.1,3,6.4,3.8,9.3,1.5l146.8-96.7 c14.5-9,24.4-23.9,27.2-40.8C519.9,575.5,534.7,477.8,537.6,449.8z"/>
+	<circle class="fight-note__icon-figure" cx="484.8" cy="325.8" r="49"/>
+	<rect class="fight-note__icon-figure" x="149.4" y="420.1" width="130" height="15"/>
+	<rect class="fight-note__icon-figure" x="149.4" y="524.9" width="130" height="15"/>
+	<rect class="fight-note__icon-figure" x="149.4" y="472.5" width="130" height="15"/>
+	<polygon class="fight-note__icon-figure" points="569.6,209.4 688.6,327.3 671.4,344.3 552.4,226.4"/>
+	<circle class="fight-note__icon-figure" cx="525.7" cy="182" r="16"/>
+	<polygon class="fight-note__icon-figure" points="552.4,730.8 671.4,612.9 688.6,629.9 569.6,747.8"/>
+	<circle class="fight-note__icon-figure" cx="525.7" cy="775.2" r="16"/>
+	<circle class="fight-note__icon-figure" cx="615" cy="790.4" r="16"/>
+</svg>
