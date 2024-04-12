@@ -163,6 +163,13 @@ Some notations contain additional information. To display it, you need to enable
 - `F!`: Floor Break.
 - `BB!`: Balcony Break.
 
+### Shortcuts
+
+- `qcb`, `QCB`: Quarter Circle Back.
+- `qcf`, `QCF`: Quarter Circle Forward.
+- `hcf`, `HCF`: Half Circle Forward.
+- `hcb`, `HCB`: Half Circle Back.
+
 ### Specific
 
 - `AOP`: Art of Phoenix (Xiaoyu)
