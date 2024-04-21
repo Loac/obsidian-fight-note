@@ -1,5 +1,5 @@
 import { Plugin } from "obsidian";
-import { processNote } from "./fight-note";
+import { processFight } from "./fight-note";
 import { DEFAULT_SETTINGS, FightNotePluginSettings, FightNoteSettingTab } from "./settings";
 
 export default class FightNotePlugin extends Plugin {
@@ -8,7 +8,7 @@ export default class FightNotePlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 		this.registerMarkdownCodeBlockProcessor("fight", (source: string, el: HTMLElement): void => {
-			processNote(source, el, this.settings);
+			processFight(source, el, this.settings);
 		});
 
 		this.addSettingTab(new FightNoteSettingTab(this.app, this));

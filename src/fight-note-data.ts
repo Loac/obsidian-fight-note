@@ -169,23 +169,6 @@ export const svgData: { [key: string]: string } = {
 }
 
 export const alias: { [key: string]: string } = {
-	"u/f": "uf",
-	"df": "d/f",
-	"db": "d/b",
-	"ub": "u/b",
-	"U/F": "UF",
-	"DF": "D/F",
-	"DB": "D/B",
-	"UB": "U/B",
-	"12": "1+2",
-	"123": "1+2+3",
-	"1234": "1+2+3+4",
-	"124": "1+2+4",
-	"13": "1+3",
-	"14": "1+4",
-	"23": "2+3",
-	"24": "2+4",
-	"34": "3+4",
 	",": ">",
 	"qcf": "QCF",
 	"qcb": "QCB",
@@ -217,48 +200,48 @@ export const notations: { [key: string]: Notation } = {
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-4"],
 	},
-	"1+2": {
-		input: "1+2",
+	"12": {
+		input: "12",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-1", prefix + "input-2"],
 	},
-	"1+2+3": {
-		input: "1+2+3",
+	"123": {
+		input: "123",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-1", prefix + "input-2", prefix + "input-3"],
 	},
-	"1+2+3+4": {
-		input: "1+2+3+4",
+	"1234": {
+		input: "1234",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-1", prefix + "input-2", prefix + "input-3", prefix + "input-4"],
 	},
-	"1+2+4": {
-		input: "1+2+4",
+	"124": {
+		input: "124",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-1", prefix + "input-2", prefix + "input-4"],
 	},
-	"1+3": {
-		input: "1+3",
+	"13": {
+		input: "13",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-1", prefix + "input-3"],
 	},
-	"1+4": {
-		input: "1+4",
+	"14": {
+		input: "14",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-1", prefix + "input-4"],
 	},
-	"2+3": {
-		input: "2+3",
+	"23": {
+		input: "23",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-2", prefix + "input-3"],
 	},
-	"2+4": {
-		input: "2+4",
+	"24": {
+		input: "24",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-2", prefix + "input-4"],
 	},
-	"3+4": {
-		input: "3+4",
+	"34": {
+		input: "34",
 		svg: "action",
 		cls: [prefix + "input", prefix + "input-3", prefix + "input-4"],
 	},

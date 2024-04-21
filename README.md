@@ -12,7 +12,9 @@ In the editor, type out a code block with name `fight` as the language. Specify 
 
 ### Examples
 
-Full notation.
+#### Full notation
+
+Use keywords (`input`, `name`, `damage`, `hits`) to set their corresponding values.
 
 ~~~markdown
 ```fight
@@ -25,7 +27,9 @@ hits: 8
 
 ![Full notation](https://i.imgur.com/PFgbQ82.png)
 
-You don't have to specify anything except the notation.
+#### Short notation
+
+In the short variant, you do not need to specify anything except the notation input.
 
 ~~~markdown
 ```fight
@@ -35,21 +39,29 @@ FC df 3 > DASH > f 2 3 2
 
 ![Short notation](https://i.imgur.com/frwILDO.png)
 
+#### Weak syntax notation
+
+Write the notation in a format convenient for you, parser will most likely understand you.
+
+~~~markdown
+```fight
+f,f+2~F SEN 3 > d/f+2
+```
+~~~
+
+![Weak syntax](https://i.imgur.com/XFVaSi2.png)
+
+#### Comments
+
 Any combination of characters separated by spaces is considered notation. If you want to add a brief comment, enclose it in quotation marks.
 
-	```fight
-	df 2 > 2+3 > 2+3 "Default heat combo"
-	```
+~~~markdown
+```fight
+df 2 > 2+3 > 2+3 "Default heat combo"
+```
+~~~
 
 ![Custom notation](https://i.imgur.com/fC6LPbb.png)
-
-The plugin has several options where you can change the size and color of the notations. Big notation with monochrome button colors:
-
-![Big notation](https://i.imgur.com/HpDcN2l.png)
-
-Small notation with Play Station button colors:
-
-![Small notation](https://i.imgur.com/8LMe1TB.png)
 
 ## Abbreviations
 
@@ -94,7 +106,23 @@ CAT:orange,rotate-right:Catastrophe (Anna)
 
 You can use few standard shortcuts. In settings can select render style – default, icon, expand:
 
+~~~markdown
+```fight
+qcb f 2
+```
+~~~
+
 ![Shortcuts](https://i.imgur.com/hqM8sDG.png)
+
+## Size notation
+
+The plugin has several options where you can change the size and color of the notations. Big notation with monochrome button colors:
+
+![Big notation](https://i.imgur.com/HpDcN2l.png)
+
+Small notation with Play Station button colors:
+
+![Small notation](https://i.imgur.com/8LMe1TB.png)
 
 ## Extend tooltips
 
@@ -135,8 +163,9 @@ Some notations contain additional information. To display it, you need to enable
 
 ### Misc
 
-- `>`, `,`: Next move.
+- `>`, `,`: Next move. Comma will be used as a block separator if it is separated by spaces (ex. `1+2 , 3+4`).
 - `[`, `]`: Brackets.
+- `~`: Very quick input (`1~2`, `df~1+2` and other action combinations).
 
 ### Special moves
 

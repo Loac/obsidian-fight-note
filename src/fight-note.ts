@@ -2,79 +2,36 @@ import { sanitizeHTMLToDom, setTooltip } from "obsidian";
 import { prefix, notations, svgData, alias, Notation, NotationTooltip } from "./fight-note-data";
 import { FightNotePluginSettings } from "./settings";
 
-export async function processNote(source: string,
-								  el: HTMLElement,
-								  settings: FightNotePluginSettings): Promise<void> {
+export async function processFight(source: string,
+								   el: HTMLElement,
+								   settings: FightNotePluginSettings): Promise<void> {
 	this.settings = settings;
-	const note: Note = parseNote(source);
-	const noteElement: HTMLDivElement = await renderNote(note);
-	el.appendChild(noteElement);
+	const parser: Parser = new Parser();
+	const fightNote: FightNote = parser.parse(source);
+	const fightNoteElement: HTMLDivElement = await renderFightNote(fightNote);
+	el.appendChild(fightNoteElement);
 }
 
-/**
- * Split lines, trim, drop empty lines, find keyword lines, get value and fill {@link Note}.
- */
-function parseNote(source: string): Note {
-	const note: Note = new Note();
-
-	source.split("\n")
-		.map((move: string): string => move.trim())
-		.filter((move: string): boolean => move.length > 0)
-		.forEach((line: string): void => {
-			let data: string[] = line
-				.split(/^(input|name|damage|hits):(.+?)$/);
-
-			if (data.length > 1) {
-				const property: string = data[1];
-				const value: string = data[2].trim();
-
-				if (property == "input" || property == "name" || property == "damage" || property == "hits") {
-					note[property] = value;
-				}
-			} else {
-				note.input = data[0];
-			}
-		});
-
-	return note;
-}
-
-async function renderNote(note: Note): Promise<HTMLDivElement> {
+async function renderFightNote(fightNote: FightNote): Promise<HTMLDivElement> {
 	const render: Render = new Render(this.settings);
 	const frame: HTMLDivElement = render.frame();
 	const header: HTMLDivElement = render.header();
 	const footer: HTMLDivElement = render.footer();
 
-	if (note.name)
-		header.appendChild(render.title(note));
+	if (fightNote.name)
+		header.appendChild(render.title(fightNote));
 
-	if (note.hits)
-		footer.appendChild(render.hits(note));
+	if (fightNote.hits)
+		footer.appendChild(render.hits(fightNote));
 
-	if (note.damage) {
+	if (fightNote.damage) {
 		if (footer.hasChildNodes())
 			footer.appendChild(render.separator());
 
-		footer.appendChild(render.damage(note));
+		footer.appendChild(render.damage(fightNote));
 	}
 
-	const inputs: HTMLDivElement = render.inputs();
-
-	note.buildStrings();
-	note.inputs()
-		.forEach(value => {
-			if (value in this.settings.customNotations) {
-				inputs.appendChild(render.notation(this.settings.customNotations[value]));
-			} else if (value in notations) {
-				inputs.appendChild(render.notation(notations[value]));
-			} else if (value in alias) {
-				inputs.appendChild(render.notation(notations[alias[value]]));
-			} else if (note.strings[value]) {
-				inputs.appendChild(render.custom(note.strings[value]));
-			} else {
-				inputs.appendChild(render.custom(value));
-			}
-		});
+	const inputs: HTMLDivElement = render.inputs(fightNote);
 
 	if (header.hasChildNodes())
 		frame.appendChild(header);
@@ -83,6 +40,137 @@ async function renderNote(note: Note): Promise<HTMLDivElement> {
 		frame.appendChild(footer);
 
 	return frame;
+}
+
+export class FightNote {
+	input: string;
+	name: string;
+	damage: string;
+	hits: string;
+	inputs: string[] = [];
+}
+
+interface Correction {
+	search: RegExp;
+	replace: string;
+}
+
+/**
+ * Convert notation string to an FightNote object.
+ */
+export class Parser {
+
+	// Some rules that allow to write notations in a more free form.
+	corrections: Correction[] = [
+		// Remove spare signs and stack combined inputs: "1+2" => "12", "d/f => df"
+		{
+			search: /[+\/]/g,
+			replace: "",
+		},
+		// Remove commas separators: "1,2, d,df" => "1 2 d df"
+		{
+			search: /([a-zA-Z0-9"]),/ig,
+			replace: "$1 ",
+		},
+		// Add spaces to sloppily inputs: "uf>12" => "uf > 12"
+		{
+			search: /([\]\[>])/g,
+			replace: " $1 ",
+		},
+		// Split move and action inputs: "d4" => "d 4"
+		{
+			search: /([udfbUDFB])([1234])/g,
+			replace: "$1 $2",
+		},
+		// Convert slide `~` input: "df~4" => "[ df 4 ]"
+		{
+			search: /\s*([udfbUDFB1234]{1,2})~([udfbUDFB1234]{1,2})\s*/g,
+			replace: " [ $1 $2 ] ",
+		},
+		// Remove extra spaces: " 1    2 " => "1 2"
+		{
+			search: /\s+/g,
+			replace: " ",
+		},
+	];
+
+	/**
+	 * Correct notation, if necessary, making it more strict.
+	 */
+	prepare(source: string): string {
+		this.corrections.forEach((correction: Correction): void => {
+			source = source.replace(correction.search, correction.replace);
+		});
+		return source.trim();
+	}
+
+	/**
+	 * Build FightNote from code block.
+	 */
+	parse(source: string): FightNote {
+		const fightNote: FightNote = new FightNote();
+
+		// Split lines, trim, drop empty, find lines with keyword, get value and fill FightNote properties.
+		this.splitBlock(source)
+			.forEach((line: string): void => {
+				let data: string[] = line
+					.split(/^(input|name|damage|hits):(.+?)$/);
+
+				if (data.length > 1) {
+					const property: string = data[1];
+					const value: string = data[2].trim();
+
+					if (property == "input" || property == "name" || property == "damage" || property == "hits") {
+						fightNote[property] = value;
+					}
+				} else {
+					fightNote.input = data[0];
+				}
+			});
+
+		// Split inputs and custom text in quotation marks.
+		// Then prepare and split inputs of notation string.
+		fightNote.inputs = this.splitInputString(fightNote.input)
+			.map(input => {
+				if (this.custom(input))
+					return [input];
+
+				input = this.prepare(input);
+				return this.splitInput(input);
+			})
+			.flatMap(item => item);
+
+
+		return fightNote;
+	}
+
+	/**
+	 * Split string by some separator, then trim and drop empty results.
+	 */
+	split(source: string, separator: string | RegExp): string[] {
+		return source.split(separator)
+			.map((move: string): string => move.trim())
+			.filter((move: string): boolean => move.length > 0);
+	}
+
+	splitBlock(source: string): string[] {
+		return this.split(source, /\n/);
+	}
+
+	splitInputString(source: string): string[] {
+		return this.split(source, /([^"]*)(".+?")/g);
+	}
+
+	splitInput(source: string): string[] {
+		return this.split(source, " ");
+	}
+
+	/**
+	 * Check if string is custom text.
+	 */
+	custom(source: string): boolean {
+		return source.startsWith("\"");
+	}
 }
 
 class Render {
@@ -102,10 +190,6 @@ class Render {
 		]});
 	}
 
-	inputs(): HTMLDivElement {
-		return createDiv({ cls: prefix + "inputs" });
-	}
-
 	header(): HTMLDivElement {
 		return createDiv({ cls: prefix + "header" });
 	}
@@ -114,16 +198,16 @@ class Render {
 		return createDiv({ cls: prefix + "footer" });
 	}
 
-	title(note: Note): HTMLDivElement {
-		return createDiv({ cls: prefix + "title", text: note.name });
+	title(fightNote: FightNote): HTMLDivElement {
+		return createDiv({ cls: prefix + "title", text: fightNote.name });
 	}
 
-	hits(note: Note): HTMLDivElement {
-		return createDiv({ cls: prefix + "hits", text: "Hits: " + note.hits });
+	hits(fightNote: FightNote): HTMLDivElement {
+		return createDiv({ cls: prefix + "hits", text: "Hits: " + fightNote.hits });
 	}
 
-	damage(note: Note): HTMLDivElement {
-		return createDiv({ cls: prefix + "damage", text: "Dmg: " + note.damage });
+	damage(fightNote: FightNote): HTMLDivElement {
+		return createDiv({ cls: prefix + "damage", text: "Dmg: " + fightNote.damage });
 	}
 
 	separator(): HTMLDivElement {
@@ -146,6 +230,27 @@ class Render {
 		stop.setAttr("offset", offset);
 		stop.setAttr("stop-color", stopColor);
 		return stop;
+	}
+
+	/**
+	 * Render inputs of FightNote.
+	 */
+	inputs(fightNote: FightNote): HTMLDivElement {
+		const inputs: HTMLDivElement = createDiv({ cls: prefix + "inputs" });
+		fightNote.inputs
+			.forEach(value => {
+				if (value in this.settings.customNotations) {
+					inputs.appendChild(this.notation(this.settings.customNotations[value]));
+				} else if (value in notations) {
+					inputs.appendChild(this.notation(notations[value]));
+				} else if (value in alias) {
+					inputs.appendChild(this.notation(notations[alias[value]]));
+				} else {
+					inputs.appendChild(this.custom(value));
+				}
+			});
+
+		return inputs;
 	}
 
 	/**
@@ -253,8 +358,8 @@ class Render {
 		});
 		container.addEventListener("mouseleave", (): void => {
 			document.querySelectorAll(".fight-note__tooltip")
-				.forEach(e => e.remove())
-		})
+				.forEach(e => e.remove());
+		});
 	}
 
 	/**
@@ -263,14 +368,14 @@ class Render {
 	tooltip(notationTooltip: NotationTooltip, showInput: boolean): HTMLDivElement {
 		const tooltip: HTMLDivElement = createDiv({ cls: [prefix + "tooltip"] });
 
-		if (notationTooltip.name || notationTooltip.characters) {
+		if (notationTooltip.name) {
 			const text: HTMLDivElement = createDiv({ cls: [prefix + "tooltip-text"] });
 			tooltip.appendChild(text);
 
 			if (notationTooltip.name)
 				this.append(text, notationTooltip.name, [prefix + "tooltip-name"]);
 
-			if (notationTooltip.characters)
+			if (notationTooltip.characters && notationTooltip.characters.length)
 				this.append(text, notationTooltip.characters.join(", "), [prefix + "tooltip-characters"]);
 		}
 
@@ -281,11 +386,12 @@ class Render {
 	}
 
 	/**
-	 * Render custom text or undefined values.
+	 * Render custom text.
+	 * Double quotes are used to separate custom text and notation inputs, so it will be removed.
 	 */
 	custom(text: string): HTMLDivElement {
 		const container: HTMLDivElement = createDiv({ cls: [prefix + "input", prefix + "input-custom"] });
-		container.appendChild(this.plate(text));
+		container.appendChild(this.plate(text.replace(/"/g, "")));
 		return container;
 	}
 
@@ -310,33 +416,5 @@ class Render {
 		const child: HTMLDivElement = createDiv({ cls: cls });
 		child.setText(text);
 		el.appendChild(child);
-	}
-}
-
-class Note {
-	input: string;
-	name: string;
-	damage: string;
-	hits: string;
-	strings: { [key: string]: string } = {};
-
-	inputs(): string[] {
-		return this.input
-			.split(" ")
-			.map((move: string) => move.trim())
-			.filter((move: string): boolean => move.length > 0);
-	}
-
-	/**
-	 * Replace all custom text with UUID for later replacement in place.
-	 */
-	buildStrings(): void {
-		const matches: RegExpMatchArray[] = [...this.input.matchAll(/".*?"/g)];
-		for (const key in matches) {
-			const value: string = matches[key][0];
-			const uuid: string = crypto.randomUUID();
-			this.strings[uuid] = value.replace(/"/g, "");
-			this.input = this.input.replace(value, uuid);
-		}
 	}
 }
